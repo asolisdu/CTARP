@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leaflet Control Geocoder</title>
+
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no initial-scale=1, maximum-scale=1"
+    />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@latest/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder@latest/dist/Control.Geocoder.css" />
+  
+    <script src="https://unpkg.com/leaflet@latest/dist/leaflet-src.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder@latest/dist/Control.Geocoder.js"></script>
+
+    <style type="text/css">
+      body {
+        margin: 0;
+      }
+      #map {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+
+  .leaflet-control-geocoder-form input {
+  font-size: 160%;
+  border: 0;
+  background-color: transparent;
+  width: 246px;
+}
+
+.leaflet-control-geocoder-icon {
+  border-radius: 4px;
+  width:  36px;
+  height: 36px;
+  border: none;
+  background-color: white;
+ /* background-image: url(images/geocoder.png); */
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
+.leaflet-touch .leaflet-control-geocoder-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.boton {
+	box-shadow:inset 0px -3px 7px 0px #29bbff;
+	background:linear-gradient(to bottom, #2dabf9 5%, #0688fa 100%);
+	background-color:#2dabf9;
+	border-radius:3px;
+	border:1px solid #0b0e07;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:120%; padding:9px 23px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #263666;
+  z-index: 400;
+  position: absolute; bottom: 10%; left: 15%; right: 15%;
+}
+.boton:hover {
+	background:linear-gradient(to bottom, #0688fa 5%, #2dabf9 100%);
+	background-color:#0688fa;
+}
+.boton:active {
+	position:relative;
+	top:1px;
+}
+
+
+</style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <button class="btn btn-primary" id="okButton" type="button" style="background-color: #158edf;color: #ffffff;font-family: Amiko, sans-serif;font-size: 18px; position: absolute; bottom: 10%; left: 15%; right: 15%; z-index: 400; font-size:120%; padding:9px 23px; width:70%;">Seleccionar Ubicación</button>
+
+    <script type="text/javascript">
+
+var selectedAddress='';
+  var selectedLat,selectedLon;
+  
+  var punto = getParameterByName('punto');
+  var lat = getParameterByName('lat'); var lon = getParameterByName('lon'); var z = 17;
+
+document.getElementById("okButton").addEventListener("click", function(){
+		setUbica();
+	});
+
+function setUbica() {
+    //console.log('setUbica');
+    //console.log (selectedLat+','+selectedLon,selectedAddress);
+   window.opener.setUbica(selectedLat,selectedLon,selectedAddress,punto);
+  
+  }
+
+    
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+//---- inicia programa
+
+      if (lat*1==0) {lat = 14.6; lon = -90.52; z=14; }
+      var map = L.map('map').setView([lat, lon], z);
+
+      var geocoder = L.Control.Geocoder.nominatim({
+        geocodingQueryParams : {countrycodes:'gt'}
+      });
+      if (URLSearchParams && location.search) {
+        // parse /?geocoder=nominatim from URL
+        var params = new URLSearchParams(location.search);
+        var geocoderString = params.get('geocoder');
+        if (geocoderString && L.Control.Geocoder[geocoderString]) {
+          //console.log('Using geocoder', geocoderString);
+          geocoder = L.Control.Geocoder[geocoderString]();
+        } else if (geocoderString) {
+          console.warn('Unsupported geocoder', geocoderString);
+        }
+      }
+
+      var control = L.Control.geocoder({
+        query: '',
+        showResultIcons : true,
+        placeholder: 'Buscar lugar aproximado...', collapsed : false, errorMessage : 'No se encontraron datos...',
+        geocoder: geocoder
+      }).
+      on('markgeocode', function(e) {
+          //console.log('on markergeocode',e);
+          selectedLat = e.geocode.center.lat; selectedLon = e.geocode.center.lng; selectedAddress = e.geocode.name;
+          
+      }).addTo(map);
+
+      var marker;
+
+      setTimeout(function() {
+        control.setQuery('');
+      }, 12000);
+
+     var OSM =  L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+      });
+
+      var OSM1 = L.tileLayer('https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png', {
+	maxZoom: 18,
+	attribution: 'Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+});
+
+var OSM2 = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
+});
+var esriImages = new L.TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+var esriLabels = new L.TileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}');
+var esriStreets = new L.TileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}');
+        var esri = L.layerGroup([esriImages, esriLabels,esriStreets]);
+   			
+ //OpenStreetMap_Mapnik.addTo(map);
+//Stadia_Outdoors.addTo(map);
+
+var capas = { 
+"<big>Calles</big>": OSM1,
+"<big>Lugares</big>": OSM2,
+"<big>Satélite</big>": esri
+
+};
+
+var mapas_capa   = L.control.layers(capas,null,{collapsed:true,position:'topright'}).addTo(map);
+
+OSM1.addTo(map);
+
+      map.on('click', function(e) {
+        geocoder.reverse(e.latlng, map.options.crs.scale(map.getZoom()), function(results) {
+          //console.log('results',results);
+          var r = results[0];
+          if (r) {
+            if (marker) {
+              marker
+                .setLatLng(e.latlng) //ante r.center
+                .setPopupContent( r.name)   //(r.html || r.name)
+                .openPopup();
+            } else {
+              marker = L.marker(e.latlng) //antes r.center
+                .bindPopup(r.name)
+                .addTo(map)
+                .openPopup();
+            }
+            map.panTo(e.latlng);
+            selectedLat = e.latlng.lat; selectedLon = e.latlng.lng; selectedAddress = r.name;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

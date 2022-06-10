@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Risk Assessment Tool</title>
+    <meta name="" content="">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.23/af-2.3.5/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/cr-1.5.3/fc-3.3.2/fh-3.1.7/kt-2.5.3/r-2.2.7/rg-1.1.2/rr-1.2.7/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.css">
+    <link rel="stylesheet" href="assets/css/Search-Field-With-Icon.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+</head>
+
+<body id="page-top"><link defer rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 collapsed toggled" style="background: #919693;">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+                    <div class="sidebar-brand-icon rotate-n-0"><i class="fas fa-bars"></i></div>
+                    <div class="sidebar-brand-text mx-3"><span style="font-size: 10px;">Risk Assessment Tool</span></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="profile.html"><i class="fas fa-user"></i><span>Profile</span></a></li>
+                    <li class="nav-item"><a class="nav-link" id="logoutBtn"><i class="fas fa-external-link-square-alt"></i><span>Log Out</span></a></li>
+                    <li class="nav-item mx-3">
+                        <hr>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="home.html"><i class="fas fa-home"></i><span>Home</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html"><i class="fas fa-info-circle"></i><span>About</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="riskMaps.html"><i class="fas fa-globe-europe"></i><span>Risk Maps</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="climateScenarios.html" style="display: none;"><i class="fas fa-cloud-sun-rain"></i><span>Climate Scenarios</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="assessmentsReport.html"><i class="fas fa-clipboard-list"></i><span>Assessment Reports</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="videoTutorials.html"><i class="fas fa-play-circle"></i><span>Video Tutorials</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="users.html" style="display: none;"><i class="fas fa-users"></i><span>Users</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <div class="container-fluid pt-3">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h4 class="text-dark mb-0">Toledo Teachers Credit Union</h4>
+                            <p>Climate Risk Assessment Tool</p>
+                        </div><img src="assets/img/Screen%20Shot%202020-11-18%20at%2020.20.57.png" style="width: 200px;">
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col text-center" id="assessmentTabs" style="display: none;">
+                            <div class="btn-group w-100" role="group" style="font-size: 14px;"><button class="btn btn-primary assessmentTab" id="tabsCustomerInfo" type="button" style="font-size: 14px;">Customer Information</button><button class="btn btn-primary assessmentTab" id="tabsBusinessInfo" type="button" style="font-size: 14px;">Business Information</button><button class="btn btn-primary assessmentTab" id="tabsClimateCards" type="button" style="font-size: 14px;">Climate Cards</button><button class="btn btn-primary assessmentTab" id="tabsClimatePrep" type="button" style="font-size: 14px;">Climate Preparedness&nbsp;</button><button class="btn btn-primary assessmentTab" id="tabsReport" type="button" style="font-size: 14px;">Report</button></div>
+                        </div>
+                    </div>
+                    <div class="carousel slide" data-ride="carousel" data-interval="false" data-keyboard="false" id="mainCarousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div id="welcomeDiv">
+                                    <div class="row mt-5">
+                                        <div class="col" style="margin-top: 70px;">
+                                            <h4 class="text-center">¡Welcome!</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="text-center mt-3">You are about to tun a Climate Risk Assessment.</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col text-center justify-content-around mt-4"><button class="btn btn-primary my-2 mr-3" id="startAssessmentBtn" type="button">New Assessment</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div id="businessInformationDiv1">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4>Customer Information</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>Customer Information</p>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col">
+                                            <p class="input-label mb-2">Are you and existing customer?</p>
+                                            <form>
+                                                <div class="form-check d-inline-flex ml-3"><input class="form-check-input" type="radio" id="existingCustomerRadioNo-2" value="no" name="existingCustomerRadio"><label class="form-check-label" for="existingCustomerRadioNo">No</label></div>
+                                                <div class="form-check d-inline-flex ml-3"><input class="form-check-input" type="radio" id="existingCustomerRadioYes-2" value="yes" name="existingCustomerRadio"><label class="form-check-label" for="existingCustomerRadioYes">Yes</label></div>
+                                            </form>
+                                        </div>
+                                        <div class="col" id="customerIdCol" style="display: none;">
+                                            <p class="mb-2 input-label">Customer ID</p><input type="text" class="form-control w-75 ml-3" placeholder="Customer ID">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col">
+                                            <p class="mb-2 input-label">Customer Name</p><input type="text" class="form-control ml-3 w-75" placeholder="Customer Name">
+                                        </div>
+                                        <div class="col">
+                                            <p class="mb-2 input-label">Customer Sex</p>
+                                            <form>
+                                                <div class="form-check d-inline-flex ml-3"><input class="form-check-input" type="radio" id="customerRadioSexM" value="male" name="existingCustomerRadio"><label class="form-check-label" for="customerRadioSexM">Male</label></div>
+                                                <div class="form-check d-inline-flex ml-3"><input class="form-check-input" type="radio" id="customerRadioSexF" value="female" name="existingCustomerRadio"><label class="form-check-label" for="customerRadioSexF">Female</label></div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col col-6">
+                                            <p class="mb-2 input-label">Customer Age</p><input type="number" class="form-control w-75 ml-3" placeholder="Age" min="18" max="100">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col col-12">
+                                            <p class="text-left mb-2 input-label">Customer Location</p>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col text-center col-2">
+                                            <p class="d-inline-flex mr-2 ml-3">Reference</p>
+                                        </div>
+                                        <div class="col col-10"><input type="text" id="customerLocationAddress" class="form-control mb-2 d-inline-flex w-75" placeholder="Address Reference" readonly="true"></div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col text-center col-2">
+                                            <p class="d-inline-flex mr-2 ml-3">Lat Lon</p>
+                                        </div>
+                                        <div class="col col-10"><input type="text" id="customerLocationLat" class="form-control mb-2 d-inline-flex w-25" placeholder="Lat" readonly="true"><input type="text" id="customerLocationLon" class="form-control mb-2 d-inline-flex w-25 ml-2" placeholder="Lon" readonly="true"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="row mb-1 mt-3">
+                                                <div class="col col-12">
+                                                    <p class="text-left mb-1 input-label">Address Search Map</p>
+                                                </div>
+                                                <div class="col d-md-flex justify-content-md-center col-12">
+                                                    <div class="embed-responsive embed-responsive-16by9 mb-5 mt-2 shadow" style="width: 95%; height: 650px; border-radius: 10px; border-style: solid; border-color: gray;"><iframe class="embed-responsive-item" src="/directions.html"></iframe></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><script type="text/javascript">
+// Create IE + others compatible event handler
+var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+var eventer = window[eventMethod];
+var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+
+// Listen to message from child window
+eventer(messageEvent,function(e) {
+  //console.log('parent received message:  ',e.data);
+
+    // if onclick event on map 
+    if(e.data[0]){
+        //console.log('es on click');
+        $('#customerLocationAddress').val(e.data[0].name);
+        $('#customerLocationLat').val(e.data[0].center.lat);
+        $('#customerLocationLon').val(e.data[0].center.lng);
+        setTimeout(() => {
+            buildCards();
+        }, 500);
+        
+    } else {
+        //console.log('es direccion');
+        $('#customerLocationAddress').val(e.data.selectedAddress);
+        $('#customerLocationLat').val(e.data.selectedLat);
+        $('#customerLocationLon').val(e.data.selectedLon);
+        
+        setTimeout(() => {
+            buildCards();
+        }, 500);
+    }
+    
+},false);
+    
+</script>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div id="businessInformationDiv">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4>Business Information</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>Business Information</p>
+                                        </div>
+                                    </div>
+                                    <div class="row my-2" id="loanPS"></div>
+                                    <div id="BIContentDiv"></div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div id="businessInformationDiv2">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4>Climate Cards</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>Climate Cards</p>
+                                            <div class="row mt-3" id="CCImgsDiv"></div>
+                                        </div>
+                                    </div>
+                                    <div id="CCContentDiv">
+                                        <div class="shadow m-2" style="display: none;">
+                                            <div class="row">
+                                                <div class="col col-5">
+                                                    <div class="embed-responsive embed-responsive-16by9" style="width: 100%; height: 600px;"><iframe class="embed-responsive-item"></iframe></div>
+                                                </div>
+                                                <div class="col my-auto">
+                                                    <div class="row mb-4">
+                                                        <div class="col text-center">
+                                                            <h2 class="d-inline-flex">Flood Risk</h2>
+                                                            <h6 class="d-inline-flex ml-2"></h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-2">
+                                                        <div class="col">
+                                                            <h5 class="d-inline-flex">Address:&nbsp;</h5>
+                                                            <h6 class="d-inline-flex ml-2"></h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-2">
+                                                        <div class="col">
+                                                            <h5 class="d-inline-flex">Lat:&nbsp;</h5>
+                                                            <h6 class="d-inline-flex ml-2"></h6>
+                                                            <h5 class="d-inline-flex ml-4">Lon:&nbsp;</h5>
+                                                            <h6 class="d-inline-flex ml-2"></h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <h5 class="d-inline-flex">Score:&nbsp;</h5>
+                                                            <h6 class="d-inline-flex ml-2"></h6>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row mt-4">
+                                                        <div class="col">
+                                                            <h5 class="d-inline-flex">Observations&nbsp;</h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-1">
+                                                        <div class="col d-lg-flex justify-content-lg-center"><textarea class="form-control w-75"></textarea></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div id="climateRiskPreparednessDiv1">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4>Risk Identification and Preparedness</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div id="CPContentDiv"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div id="climateRiskPreparednessDiv2">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4>Risk Identification and Preparedness</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>2.1 Ask the customer: "How you consider your business ir ready to..."</p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col col-7">
+                                            <p>Question</p>
+                                        </div>
+                                        <div class="col col-1">
+                                            <p class="text-center">1</p>
+                                        </div>
+                                        <div class="col col-1">
+                                            <p class="text-center">2</p>
+                                        </div>
+                                        <div class="col col-1">
+                                            <p class="text-center">3</p>
+                                        </div>
+                                        <div class="col col-1">
+                                            <p class="text-center">4</p>
+                                        </div>
+                                        <div class="col col-1">
+                                            <p class="text-center">5</p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col col-7">
+                                            <p>1. Climate hazards in your location...</p>
+                                        </div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col col-7">
+                                            <p>2. Informed&nbsp; about the climate hazards...</p>
+                                        </div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col col-7">
+                                            <p>3. Question 3</p>
+                                        </div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col col-7">
+                                            <p>4. Question 4</p>
+                                        </div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col col-7">
+                                            <p>5. Question 5&nbsp;</p>
+                                        </div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                        <div class="col text-center col-1"><input type="radio"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div id="climateRiskCards">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4>Climate Risk Cards</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>climate risk cards</p>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-5 mt-4"><div class="col col-3"><a href="#"><img class="w-100 h-100" src="assets/img/climateCards/d.jpg" />
+        <p class="text-center">Drought</p>
+    </a></div>
+                                        <div class="col col-3"><img class="w-100 h-100" src="assets/img/climateCards/wf.jpg">
+                                            <p class="text-center">Wildfires</p>
+                                        </div>
+                                        <div class="col col-3"><img class="w-100 h-100" src="assets/img/climateCards/fl.jpg">
+                                            <p class="text-center">Coastal Flooding</p>
+                                        </div>
+                                        <div class="col col-3"><img class="w-100 h-100" src="assets/img/climateCards/cf.jpg">
+                                            <p class="text-center">Instant Flooding</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div id="climateRiskCardDrought">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4>Climate Risk Card</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>Drought</p>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-5 mt-4">
+                                        <div class="col col-3"><img class="w-100 h-100" src="assets/img/climateCards/d.jpg"></div>
+                                        <div class="col col-6">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="mt-3" style="font-size: 18px;">Drought</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="d-inline-block" style="font-size: 14px;">Investment Risk</p><a class="ml-2" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-info-circle-fill" style="color: #464b76;font-size: 20px;">
+                                                            <path fill-rule="evenodd" d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
+                                                        </svg></a>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="d-inline-block ml-2" style="font-size: 14px;">1 low</p>
+                                                    <p class="float-right d-inline-block mr-2" style="font-size: 14px;">5 Very High</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col"><input class="custom-range ml-2 d-inline-block" type="range" value="1" min="1" max="5" step="1"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><button class="btn btn-primary float-right mr-5 px-5" type="button">Save</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div id="climateRiskMaps">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4>Climate Risk Maps</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>sub title</p>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-5 mt-4">
+                                        <div class="col col-3"><img class="w-100" src="assets/img/Screen%20Shot%202020-11-25%20at%2015.53.33.png" style="height: 250px;"></div>
+                                        <div class="col col-3"><img class="w-100" src="assets/img/Screen%20Shot%202020-11-25%20at%2015.53.37.png" style="height: 250px;"></div>
+                                        <div class="col col-3"><img class="w-100" src="assets/img/Screen%20Shot%202020-11-25%20at%2015.53.42.png" style="height: 250px;"></div>
+                                        <div class="col col-3"><img class="w-100" src="assets/img/Screen%20Shot%202020-11-25%20at%2015.53.46.png" style="height: 250px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div id="climateRiskReport">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4>Climate Risk Report</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>sub title</p>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-5 mt-4">
+                                        <div class="col">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Column 1</th>
+                                                            <th>Column 2</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Cell 1</td>
+                                                            <td>Cell 2</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Cell 3</td>
+                                                            <td>Cell 4</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Cell 3</td>
+                                                            <td>Cell 4</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p>Potential hazards in the location</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="d-inline-block">- Flooding&nbsp;</p><span class="ml-2 text-success">HIGH</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="d-inline-block">- Drought&nbsp;</p><span class="ml-2 text-danger">LOW</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="d-inline-block">- Heavy Raining&nbsp;</p><span class="ml-2 text-danger">LOW</span>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col">
+                                                    <p class="d-inline-block">Climate Change Scenario</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div><canvas data-bs-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;],&quot;fill&quot;:true}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{}}}"></canvas></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div><a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev"><span class="carousel-control-prev-icon"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#mainCarousel" role="button" data-slide="next"><span class="carousel-control-next-icon"></span><span class="sr-only">Next</span></a></div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col text-center" id="assessmentTabs2" style="display: none;">
+                            <div class="btn-group w-100" role="group" style="font-size: 14px;"><button class="btn btn-primary assessmentTab" id="tabsCustomerInfo" type="button" style="font-size: 14px;">Customer Information</button><button class="btn btn-primary assessmentTab" id="tabsBusinessInfo" type="button" style="font-size: 14px;">Business Information</button><button class="btn btn-primary assessmentTab" id="tabsClimateCards" type="button" style="font-size: 14px;">Climate Cards</button><button class="btn btn-primary assessmentTab" id="tabsClimatePrep" type="button" style="font-size: 14px;">Climate Preparedness&nbsp;</button><button class="btn btn-primary assessmentTab" id="tabsReport" type="button" style="font-size: 14px;">Report</button></div>
+                        </div>
+                    </div>
+                    <div class="text-right mt-3">
+                        <div class="row mb-3">
+                            <div class="col pr-5"><button class="btn btn-primary mr-4 px-3" id="backBtn" type="button" style="display: none;"><i class="fas fa-chevron-left mr-2"></i>Back</button><button class="btn btn-primary mr-4 px-3 lastSlideBtn" id="finishBtn" type="button" style="display: none;"><i class="fas fa-check-circle mr-2"></i>Finish</button><button class="btn btn-primary mr-4 px-3 lastSlideBtn" id="emailBtn" type="button" style="display: none;"><i class="fas fa-envelope mr-2"></i>Email</button><button class="btn btn-primary mr-4 px-3 lastSlideBtn" id="printBtn" type="button" style="display: none;"><i class="fas fa-print mr-2"></i>Print</button><button class="btn btn-primary px-3" id="nextBtn" type="button" style="display: none;">Next<i class="fas fa-chevron-right ml-2"></i></button></div>
+                        </div>
+                    </div>
+                    <div class="modal fade" role="dialog" tabindex="-1" id="usersModal">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Select Customer</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col justify-content-center d-flex py-0">
+                                            <div class="search-container w-50"><input type="text" class="search-input" name="search-bar" placeholder="Search..."><button class="btn btn-light search-btn" type="button"> <i class="fa fa-search"></i></button></div>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Nombre</th>
+                                                    <th>Email</th>
+                                                    <th style="width: 20%;">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Diego M.</td>
+                                                    <td style="width: 40%;">riskassessment@gmail.com</td>
+                                                    <td><button class="btn btn-primary btn-circle mr-2" type="button"><i class="far fa-eye"></i></button><button class="btn btn-primary btn-circle mr-2 btn-warning" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-pencil-fill">
+                                                                <path fill-rule="evenodd" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"></path>
+                                                            </svg></button><button class="btn btn-primary btn-circle btn-danger" type="button"><i class="fas fa-trash"></i></button></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>Diego M.</td>
+                                                    <td style="width: 40%;">riskassessment@gmail.com</td>
+                                                    <td><button class="btn btn-primary btn-circle mr-2" type="button"><i class="far fa-eye"></i></button><button class="btn btn-primary btn-circle mr-2 btn-warning" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-pencil-fill">
+                                                                <path fill-rule="evenodd" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"></path>
+                                                            </svg></button><button class="btn btn-primary btn-circle btn-danger" type="button"><i class="fas fa-trash"></i></button></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>Diego M.</td>
+                                                    <td style="width: 40%;">riskassessment@gmail.com</td>
+                                                    <td><button class="btn btn-primary btn-circle mr-2" type="button"><i class="far fa-eye"></i></button><button class="btn btn-primary btn-circle mr-2 btn-warning" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-pencil-fill">
+                                                                <path fill-rule="evenodd" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"></path>
+                                                            </svg></button><button class="btn btn-primary btn-circle btn-danger" type="button"><i class="fas fa-trash"></i></button></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4</td>
+                                                    <td>Diego M.</td>
+                                                    <td style="width: 40%;">riskassessment@gmail.com</td>
+                                                    <td><button class="btn btn-primary btn-circle mr-2" type="button"><i class="far fa-eye"></i></button><button class="btn btn-primary btn-circle mr-2 btn-warning" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-pencil-fill">
+                                                                <path fill-rule="evenodd" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"></path>
+                                                            </svg></button><button class="btn btn-primary btn-circle btn-danger" type="button"><i class="fas fa-trash"></i></button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer p-0">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><img class="mt-5" src="assets/img/854034742_1280x720.jpg" style="width: 200px;"></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/chart.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/assessments.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/formManager.js"></script>
+    <script src="assets/js/htmlGen.js"></script>
+    <script src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.23/af-2.3.5/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/cr-1.5.3/fc-3.3.2/fh-3.1.7/kt-2.5.3/r-2.2.7/rg-1.1.2/rr-1.2.7/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/printThis/1.15.0/printThis.min.js" integrity="sha512-d5Jr3NflEZmFDdFHZtxeJtBzk0eB+kkRXWFQqEc1EKmolXjHm2IKCA7kTvXBNjIYzjXfD5XzIjaaErpkZHCkBg==" crossorigin="anonymous"></script>
+    <script src="assets/js/index.js"></script>
+    <script src="assets/js/slidesManager.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/themeConfig.js"></script>
+</body>
+
+</html>

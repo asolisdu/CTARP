@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Address Search</title>
+    <meta name="" content="">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.23/af-2.3.5/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/cr-1.5.3/fc-3.3.2/fh-3.1.7/kt-2.5.3/r-2.2.7/rg-1.1.2/rr-1.2.7/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.css">
+    <link rel="stylesheet" href="assets/css/Search-Field-With-Icon.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+</head>
+
+<body><title>Directions</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@latest/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder@latest/dist/Control.Geocoder.css">
+<script src="https://unpkg.com/leaflet@latest/dist/leaflet-src.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder@latest/dist/Control.Geocoder.js"></script>
+
+
+<link href="https://api.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/css/font-awesome.min.css" rel="stylesheet">
+<style type="text/css">
+      body {
+        margin: 0;
+      }
+      #map {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+
+  .leaflet-control-geocoder-form input {
+  font-size: 160%;
+  border: 0;
+  background-color: transparent;
+  width: 246px;
+}
+
+.leaflet-control-geocoder-icon {
+  border-radius: 4px;
+  width:  36px;
+  height: 36px;
+  border: none;
+  background-color: white;
+ /* background-image: url(images/geocoder.png); */
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
+.leaflet-touch .leaflet-control-geocoder-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.boton {
+	box-shadow:inset 0px -3px 7px 0px #29bbff;
+	background:linear-gradient(to bottom, #2dabf9 5%, #0688fa 100%);
+	background-color:#2dabf9;
+	border-radius:3px;
+	border:1px solid #0b0e07;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:120%; padding:9px 23px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #263666;
+  z-index: 400;
+  position: absolute; bottom: 10%; left: 15%; right: 15%;
+}
+.boton:hover {
+	background:linear-gradient(to bottom, #0688fa 5%, #2dabf9 100%);
+	background-color:#0688fa;
+}
+.boton:active {
+	position:relative;
+	top:1px;
+}
+
+ 
+
+</style>
+
+
+<div id="map"></div>
+
+<button class="btn btn-primary" id="okButton" type="button" style="background-color: #158edf;color: #ffffff;font-family: Amiko, sans-serif;font-size: 18px; position: absolute; bottom:  07%; left: 10%;  z-index: 400;  font-size:100%;  padding:9px 13px;  width:80%; display: none;">Select point as address location</button>
+<script type="text/javascript">
+
+var selectedAddress='';
+  var selectedLat,selectedLon;
+  var lc;
+  
+  var pin = getParameterByName('pin');
+  var lat = getParameterByName('lat'); var lon = getParameterByName('lon'); 
+  var z = getParameterByName('z');
+
+document.getElementById("okButton").addEventListener("click", function(){
+		setUbica();
+	});
+
+
+function setUbica() {
+    //console.log('setUbica');
+    if  (selectedLat == undefined) {
+      alert('Please select a point or location in map !!! '); return;    
+    }    
+//console.log (selectedLat+','+selectedLon,selectedAddress);
+alert ( 'Call opener: ' +selectedLat+','+selectedLon,selectedAddress);
+
+   //window.opener.setUbica(selectedLat,selectedLon,selectedAddress,punto);
+  
+  }
+
+    
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+//---- inicia programa
+     var southWest = L.latLng(0,-70),
+        northEast = L.latLng(9,-50),
+        mybounds = L.latLngBounds(southWest, northEast);
+
+      if (lat*1==0) {lat = 6.8; lon = -58.18; z=7; }
+      var map = L.map('map',{minZoom: 7, maxZoom: 17,maxBounds : mybounds}).setView([lat, lon], z);
+      
+      if (pin==1) {
+           marker = L.marker([lat,lon]) //antes r.center
+                .bindPopup(getParameterByName('address'))
+                .addTo(map)
+                .openPopup();
+            
+      } //add marker on location
+
+      var geocoder = L.Control.Geocoder.nominatim({
+        geocodingQueryParams : {countrycodes:'gy'}
+      });
+      if (URLSearchParams && location.search) {
+        // parse /?geocoder=nominatim from URL
+        var params = new URLSearchParams(location.search);
+        var geocoderString = params.get('geocoder');
+        if (geocoderString && L.Control.Geocoder[geocoderString]) {
+          //console.log('Using geocoder', geocoderString);
+          geocoder = L.Control.Geocoder[geocoderString]();
+        } else if (geocoderString) {
+          console.warn('Unsupported geocoder', geocoderString);
+        }
+      }
+
+      var control = L.Control.geocoder({
+        query: '',
+        showResultIcons : true,
+        placeholder: 'Search nearby place...', collapsed : false, errorMessage : 'Data not found...',
+        geocoder: geocoder
+      }).
+      on('markgeocode', function(e) {
+          
+          //console.log('on markergeocode',e);
+          selectedLat = e.geocode.center.lat; selectedLon = e.geocode.center.lng; selectedAddress = e.geocode.name;
+          
+          let myGeo = new Object();
+          myGeo.selectedLat = selectedLat;
+          myGeo.selectedLon = selectedLon;
+          myGeo.selectedAddress = selectedAddress;
+          
+          
+        setTimeout(() => {
+            parent.postMessage(myGeo); 
+        }, 100);
+          
+          
+      }).addTo(map);
+
+   /*  lc = L.control.locate({
+    position: 'topleft',
+    setView : 'once',
+    strings: {
+        title: "Mi Ubicación !"
+    }
+}).addTo(map); //https://github.com/domoritz/leaflet-locatecontrol
+ */
+
+
+function onLocationFound(e) {
+  //console.log('on location found',e);
+  geocoder.reverse(e.latlng, map.options.crs.scale(map.getZoom()), function(results) {
+          //console.log('results',results);
+          var r = results[0];
+          if (r) {
+            if (marker) {
+              marker
+                .setLatLng(e.latlng) //ante r.center
+                .setPopupContent( r.name)   //(r.html || r.name)
+                .openPopup();
+            } else {
+              marker = L.marker(e.latlng) //antes r.center
+                .bindPopup(r.name)
+                .addTo(map)
+                .openPopup();
+            }
+            map.panTo(e.latlng);
+            selectedLat = e.latlng.lat; selectedLon = e.latlng.lng; selectedAddress = r.name;
+          }
+          
+          setTimeout(function() { lc.stop(); }, 3000);
+         
+        });
+
+  //selectedLat = e.latlng.lat; selectedLon = e.latlng.lng;
+}
+
+map.on('locationfound', onLocationFound);
+
+      var marker;
+
+      setTimeout(function() {
+        control.setQuery('');
+      }, 12000);
+
+     var OSM =  L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+      });
+
+      var OSM1 = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 18,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+});
+
+var OSM2 = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles by <a href="https://www.hotosm.org/" target="_blank">Hotosm.org</a> hosted <a href="https://openstreetmap.fr/" target="_blank">OSM France</a>'
+});
+var esriImages = new L.TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:17});
+var esriLabels = new L.TileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{maxZoom:17});
+var esriStreets = new L.TileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}',{maxZoom:17});
+        var esri = L.layerGroup([esriImages, esriLabels,esriStreets]);
+   			
+ //OpenStreetMap_Mapnik.addTo(map);
+//Stadia_Outdoors.addTo(map);
+
+var capas = { 
+/*"<big>Calles</big>": OSM1, */
+"<big>Streets</big>": OSM2,
+"<big>Satellite</big>": esri
+
+};
+
+var mapas_capa   = L.control.layers(capas,null,{collapsed:true,position:'topright'}).addTo(map);
+
+OSM2.addTo(map);
+
+      map.on('click', function(e) {
+        console.log(e)
+        geocoder.reverse(e.latlng, map.options.crs.scale(map.getZoom()), function(results) {
+          console.log('results',results);
+          results[0].center.lat = e.latlng.lat
+          results[0].center.lng = e.latlng.lng
+          parent.postMessage(results);
+          var r = results[0];
+          if (r) {
+            if (marker) {
+              marker
+                .setLatLng(e.latlng) //ante r.center
+                .setPopupContent( r.name)   //(r.html || r.name)
+                .openPopup();
+            } else {
+              marker = L.marker(e.latlng) //antes r.center
+                .bindPopup(r.name)
+                .addTo(map)
+                .openPopup();
+            }
+            map.panTo(e.latlng);
+            selectedLat = e.latlng.lat; selectedLon = e.latlng.lng; selectedAddress = r.name;
+          }
+        });
+      });
+    </script>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/chart.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/assessments.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/formManager.js"></script>
+    <script src="assets/js/htmlGen.js"></script>
+    <script src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.23/af-2.3.5/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/cr-1.5.3/fc-3.3.2/fh-3.1.7/kt-2.5.3/r-2.2.7/rg-1.1.2/rr-1.2.7/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/printThis/1.15.0/printThis.min.js" integrity="sha512-d5Jr3NflEZmFDdFHZtxeJtBzk0eB+kkRXWFQqEc1EKmolXjHm2IKCA7kTvXBNjIYzjXfD5XzIjaaErpkZHCkBg==" crossorigin="anonymous"></script>
+    <script src="assets/js/index.js"></script>
+    <script src="assets/js/slidesManager.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/themeConfig.js"></script>
+</body>
+
+</html>

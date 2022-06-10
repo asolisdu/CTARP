@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Assessments Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <style>
+        #map {
+            bottom: 0;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        .legend {
+            color: #555;
+            padding: 5px 5px;
+            font: 12px Arial, Helvetica, sans-serif;
+            /*       font-weight: bold; */
+            background: white;
+            background: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+        }
+
+        .legend ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            clear: both;
+        }
+
+        .legend li {
+            display: inline-block;
+            width: 22px;
+            height: 20px;
+            padding-top: 6px;
+        }
+
+        .legend .min {
+            float: left;
+            padding-bottom: 5px;
+        }
+
+        .legend .max {
+            float: right;
+        }
+
+        /*     #info {
+      display: block;
+      z-index: 100000;
+      position: relative;
+      margin: 0px auto;
+      width: 10%;
+      padding: 10px;
+      border: none;
+      border-radius: 3px;
+      font-size: 12px;
+      text-align: center;
+      color: #222;
+      background: #fff;
+    } */
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <!--   <div id="info"></div> -->
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script>
+
+
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+
+        function round(value, precision) {
+            var multiplier = Math.pow(10, precision || 0);
+            return Math.round(value * multiplier) / multiplier;
+        }
+
+        function onEachFeature(feature, layer) {
+      var popupContent = "";
+
+      if (feature.properties && feature.properties.assessment_id) {
+        popupContent += '<b>Assessment Id No. </b><a href="/viewAssessment.html?assessment_id='+feature.properties.assessment_id+'&action=view">'+feature.properties.assessment_id+'</a><br><hr>';
+        popupContent += '<b>Name: </b>'+feature.properties.customer_first_name+'<br>';
+        popupContent += '<b>Loan Purpose: </b>'+feature.properties.loan_purpose_name+'<br>';
+        popupContent += '<b>Loan Sector: </b>'+feature.properties.loan_section_name+'<br>';
+        popupContent += '<b>Date: </b>'+feature.properties.created_at+'<br>';
+      }
+
+      layer.bindPopup(popupContent);
+    }
+        
+        function plot(data){
+            capa = L.geoJSON(data, {
+            style: function(feature) {
+            return feature.properties && feature.properties.style;
+            },
+
+            onEachFeature: onEachFeature,
+            pointToLayer: function(feature, latlng) {
+            return L.circleMarker(latlng, {
+            radius: 4,
+            fillColor: "white",
+            color: "red",
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.8
+                });
+            }
+            }).addTo(map);
+        } //plot
+
+        //cargar data
+        async function getData() {  
+            const response = await fetch('/assets/js/view1.json'); //sustituir por api integrando la sesion o asignar de una llamada anterior
+            const json = await response.json();
+            console.log(json);
+            var geojson = {};
+            geojson['type'] = 'FeatureCollection';
+            geojson['features'] = [];
+            json.view1.forEach((element, key, arr) => {
+                var newFeature = {
+                    "type": "Feature",
+                    "geometry": {
+                    "type": "Point",
+                    "coordinates": [parseFloat(element.lon), parseFloat(element.lat)]
+                    },
+                    "properties": element
+                };
+                geojson['features'].push(newFeature);
+            }) //forEach
+            console.log(geojson);
+            plot(geojson);
+        } //getData
+
+        // initalize leaflet map
+        curlat = getParameterByName('lat') * 1 != 0 ? getParameterByName('lat') * 1 : 5;
+        curlon = getParameterByName('lon') * 1 != 0 ? getParameterByName('lon') * 1 : -59;
+        opacity = getParameterByName('opacity') * 1 != 0 ? getParameterByName('opacity') * 1 : .7;
+        z = getParameterByName('z') * 1 != 0 ? getParameterByName('z') * 1 : 7;
+        minimo = getParameterByName('min') * 1 != 0 ? getParameterByName('min') * 1 : 0;
+        scalemin = getParameterByName('scalemin') * 1;
+        scalemax = getParameterByName('scalemax') * 1;
+        lay = getParameterByName('lay') == '' ? 'flood' : getParameterByName('lay');
+
+
+        var southWest = L.latLng(0,-65),
+        northEast = L.latLng(9,-50),
+        mybounds = L.latLngBounds(southWest, northEast);
+        var map = L.map('map', { minZoom: 6, maxZoom: 17, maxBounds: mybounds }).setView([curlat, curlon], z);
+
+
+        // var map = L.map('map').setView([curlat, curlon], z);
+
+        var layer;
+
+        // add OpenStreetMap basemap
+        L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        getData();
+
+        map.on('click', function(evt) {
+                                var latlng = map.mouseEventToLatLng(evt.originalEvent);
+                                console.log(latlng);
+                              }); //click
+
+
+    </script>
+</body>
+
+</html>

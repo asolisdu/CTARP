@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Risk Assessment Tool - About</title>
+    <meta name="" content="">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.23/af-2.3.5/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/cr-1.5.3/fc-3.3.2/fh-3.1.7/kt-2.5.3/r-2.2.7/rg-1.1.2/rr-1.2.7/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.css">
+    <link rel="stylesheet" href="assets/css/Search-Field-With-Icon.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 collapsed toggled" style="background: #919693;">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+                    <div class="sidebar-brand-icon rotate-n-0"><i class="fas fas fa-bars"></i></div>
+                    <div class="sidebar-brand-text mx-3"><span style="font-size: 10px;">Risk Assessment Tool</span></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="profile.html"><i style="font-size: 2.5vh;" class="fas fa-user"></i><span>Profile</span></a></li>
+                    <li class="nav-item"><a class="nav-link" id="logoutBtn"><i style="font-size: 2.5vh;" class="fas fa-external-link-square-alt"></i><span>Log Out</span></a></li>
+                    <li class="nav-item mx-3">
+                        <hr>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="home.html"><i style="font-size: 2.5vh;" class="fas fa-home"></i><span>Home</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="about.html"><i style="font-size: 2.5vh;" class="fas fa-info-circle"></i><span>About</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="riskMaps.html"><i style="font-size: 2.5vh;" class="fas fa-globe-europe"></i><span>Risk Maps</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="climateScenarios.html" style="display: none;"><i style="font-size: 2.5vh;" class="fas fa-cloud-sun-rain"></i><span>Climate Scenarios</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="assessmentsReport.html"><i style="font-size: 2.5vh;" class="fas fa-clipboard-list"></i><span>Assessment Reports</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="videoTutorials.html"><i style="font-size: 2.5vh;" class="fas fa-play-circle"></i><span>Video Tutorials</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="users.html" style="display: none;"><i style="font-size: 2.5vh;" class="fas fa-users"></i><span>Users</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="nav navbar-nav flex-nowrap ml-auto">
+                            <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fas fa-search"></i></a>
+                                <div class="dropdown-menu dropdown-menu-right p-3 animated--grow-in" aria-labelledby="searchDropdown">
+                                    <form class="form-inline mr-auto navbar-search w-100">
+                                        <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ...">
+                                            <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <div class="d-none d-sm-block topbar-divider"></div>
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><span class="d-none d-lg-inline mr-2 text-gray-600 small" id="helloUserSpan"></span><img class="border rounded-circle img-profile" src="assets/img/icons8-globe-144.png"></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in"><a class="dropdown-item" href="profile.html"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a>
+                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="logout.html"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h2 class="text-dark mb-0">About</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h3>Approach</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p style="font-size: 14px;">Guyana is highly vulnerable to natural disasters and climate change given its geographic context. The country's low-lying terrain and large coastal plains – where 90% of the population resides – render it susceptible to numerous climate-related risks including coastal and river flooding, droughts, wildfires, and tsunamis. These risks are expected to intensify due to increased weather system volatility and rising sea levels associated with climate change, with significant implications for agricultural production, public health outcomes, and livelihoods</p>
+                            <p style="font-size: 14px;">The Climate Risk Assessment Tool analyzes the vulnerability to climate change of the FI loan portfolio. Its use allows IPED to incorporate the analysis of climate risks into the FI’s future credit decisions, while also making recommendations for climate risk management at the client level. This tool was designed following the creation of a map of climate change risks, with specific impact on clients marked out.
+
+                                To be able to analyze the vulnerability, we first understood the scope of climate risks – past, present and future – for Guyana and developed a tool to evaluate the existing loans. This tool can then be applied to evaluate loan applications. Where possible, DAI prioritized consistency of recommendations across the IPED projects and optimized efficiencies during the development of the climate vulnerability tool.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mt-3">
+                            <h3>Overview</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p style="font-size: 14px;"><strong>Climate Risk Map</strong>. DAI sourced and customized climate risk maps depicting topographic features, rivers, streams, and land use. The specificity and precision of the map depended on the availability of geographic data (topographic and locational), data on the effects of historical climatic events, and data of projected climatic risk. DAI used existing data, either through partnerships or data collection, rather than conduct climate modeling. DAI created interactive maps that will allow users to select a point and an analyze a specific location and revealing not only the zone, but map overlays of heat, fire, flood information that will help to define the severity of the risk.</p>
+                            <p style="font-size: 14px;"><strong>Portfolio Analysis</strong>. In order to assess the vulnerability of IPED’s loan portfolio, a series of questions were added to the Rapid Survey to define relevant climatic risks, and their severity. Questions were tailored to acknowledge known climatic risks to agriculture, fisheries and livestock within Guyana to draw on more detailed insights.</p>
+                            <p style="font-size: 14px;"><strong>Climate Risk Tool.</strong> DAI assessed publicly available climate vulnerability tools and data with respect to Guyana and the area of interest of IPED. A fit-for-purpose climate risk tool was thus developed that will be relevant for IPED, displaying the vulnerability of an existing or potential loan to climate risk, based on the location of the business or opportunity, its sector, and type of project. The tool includes an interactive map that contains layers of multi-decadal historical heat, fire, and flood climatic issues associated with the location as indicators of likely future events. It includes a series of questions that directs the user to different questions based on the location and sector of the loan under consideration.<br></p>
+                            <p style="font-size: 14px;"><strong>Training.</strong> DAI will deliver virtual training materials. We assume that IPED will ensure that trainees from the training. One virtual training session will be held to provide training on the climate risk assessment tool and action plans. This session will be recorded and include a live Q&A follow-up to reinforce learning. Should it be required, our local engagement manager, Mr. Itza, will be on hand – COVID restrictions permitting, and with all government-mandated social distancing protocols observed – to provide direct user engagement support and follow-up learning by telephone or instant messaging. If urgently required, DAI will engage with IPED to schedule an in-person refresher session.</p>
+                            <p style="font-size: 14px;">Topics to be included are:&nbsp;<br></p>
+                            <ul style="font-size: 14px;">
+                                <li>Overview of Climate Change&nbsp;<br></li>
+                                <li>How climate change is affecting Belize&nbsp;&nbsp;<br></li>
+                                <li>How climate change can affect BCUL/CU projects&nbsp;&nbsp;<br></li>
+                                <li>Orientation to the online tool&nbsp;<br></li>
+                                <li>Practice Exercises.&nbsp;<br></li>
+                            </ul>
+                            <p style="font-size: 14px;">DAI will be available for questions that are generated by the loan officers and trainers.&nbsp;<br></p>
+                            <p style="font-size: 14px;"><strong>Climate Risk Policy.</strong> Climate Risk Policy. The climate risk policy (hereafter, “the Policy”) will be developed in consultation with IPED, following testing of the Tool. The Policy will outline how IPED will plan to reduce its overall exposure to climate risks. The Policy will address both acute and chronic risks from extreme weather events and changing climatic conditions. Such impacts in turn could result in financial exposure risk to IPED assets, liabilities, capital and financing, in the form of lower asset values, portfolio losses and loan defaults. The Policy will outline IPED will use the climate risk analysis to minimize both infrastructure and financial impacts to its clients’ assets in accordance with fiduciary obligations. Legal liability risks include potential litigation from parties that could suffer loss from climate change impacts such as investors, insurers or trustees. The Policy will outline IPEDs owe which standards of care to different actors and provisions such as liability limitations and coverage clauses addressing climate risk in contractual and professional indemnity insurance documentation. Additionally, the Policy will outline when and how IPED  will inform its clients and other actors regarding climate risk issues, including limitations of limitations of assumptions or advice in relation to climate risk. Finally, the Policy will establish trigger points and timetables for conducting or reassessing individual and portfolio-wide climate risk analyses.
+
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mt-3">
+                            <h6>Key elements in this task&nbsp;were:&nbsp;&nbsp;<br></h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p style="font-size: 14px;">Topics to be included are:&nbsp;<br></p>
+                            <ul style="font-size: 14px;">
+                                <li>Conducting background research on&nbsp;the climate-related risks in each district of Belize and specific impact on agriculture, fisheries and livestock, including a review of relevant project documents already created, a&nbsp;literature review, and an investigation of previously developed&nbsp;climate vulnerability tools&nbsp;in the region&nbsp;<br></li>
+                                <li>Sourcing and customizing all openly-accessible&nbsp;climate vulnerability/risk maps&nbsp;across all six districts, including historical&nbsp;data for&nbsp;previous climatic events (drought, wildfire, floods)&nbsp;<br></li>
+                                <li>Analyzing the vulnerability of the existing loan portfolio of IPED&nbsp;<br></li>
+                                <li>Developing a climate vulnerability tool for future loans&nbsp;&nbsp;<br></li>
+                                <li>Practice Exercises.&nbsp;<br></li>
+                            </ul>
+                            <p style="font-size: 14px;">Remaining&nbsp;elements in this task&nbsp;are:&nbsp;&nbsp;<br></p>
+                            <ul style="font-size: 14px;">
+                                <li>Training IPED on how to use the tool&nbsp;&nbsp;<br></li>
+                                <li>Developing IPED’s climate risk policy&nbsp;<br></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer p-0">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><img class="mt-5" src="assets/img/854034742_1280x720.jpg" style="width: 200px;"></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/chart.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/assessments.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/formManager.js"></script>
+    <script src="assets/js/htmlGen.js"></script>
+    <script src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.23/af-2.3.5/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/cr-1.5.3/fc-3.3.2/fh-3.1.7/kt-2.5.3/r-2.2.7/rg-1.1.2/rr-1.2.7/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/printThis/1.15.0/printThis.min.js" integrity="sha512-d5Jr3NflEZmFDdFHZtxeJtBzk0eB+kkRXWFQqEc1EKmolXjHm2IKCA7kTvXBNjIYzjXfD5XzIjaaErpkZHCkBg==" crossorigin="anonymous"></script>
+    <script src="assets/js/index.js"></script>
+    <script src="assets/js/slidesManager.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/themeConfig.js"></script>
+</body>
+
+</html>

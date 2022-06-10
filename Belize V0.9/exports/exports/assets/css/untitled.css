@@ -1,0 +1,29 @@
+.nav-link {
+}
+
+.sidebar-dark .nav-item .nav-link {
+  color: rgb(70,75,118);
+}
+
+.sidebar-dark .nav-item .nav-link i {
+  color: rgb(70,75,118);
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  padding: 6px 0px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.42857;
+}
+
+a.carousel-control-next {
+  display: none;
+}
+
+a.carousel-control-prev {
+  display: none;
+}
+

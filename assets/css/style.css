@@ -1,0 +1,64 @@
+.sidebar-dark .nav-item .nav-link {
+  color: rgb(99, 101, 114);
+}
+
+.sidebar-dark .nav-item .nav-link i {
+  color: rgb(99, 101, 114);
+
+}
+
+
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  padding: 6px 0px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.42857;
+}
+
+a.carousel-control-next {
+  display: none;
+}
+
+a.carousel-control-prev {
+  display: none;
+}
+
+.div2Print {
+}
+
+#printReportBtn @print {
+  display: none;
+}
+
+/* todo cuadrado * {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+} */
+
+.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:60px;
+	right:40px;
+	background-color:#0C9;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+  z-index: 2000;
+}
+
+.my-float{
+	margin-top:22px;
+}
+
+.body {
+  font-family: "Oswald", sans-serif !important;
+}
+

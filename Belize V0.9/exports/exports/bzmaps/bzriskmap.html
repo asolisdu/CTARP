@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BZ Risk Maps</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <style>
+        #map {
+            bottom: 0;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        .legend {
+            color: #555;
+            padding: 5px 5px;
+            font: 12px Arial, Helvetica, sans-serif;
+            /*       font-weight: bold; */
+            background: white;
+            background: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+        }
+
+        .legend ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            clear: both;
+        }
+
+        .legend li {
+            display: inline-block;
+            width: 22px;
+            height: 20px;
+            padding-top: 6px;
+        }
+
+        .legend .min {
+            float: left;
+            padding-bottom: 5px;
+        }
+
+        .legend .max {
+            float: right;
+        }
+
+        /*     #info {
+      display: block;
+      z-index: 100000;
+      position: relative;
+      margin: 0px auto;
+      width: 10%;
+      padding: 10px;
+      border: none;
+      border-radius: 3px;
+      font-size: 12px;
+      text-align: center;
+      color: #222;
+      background: #fff;
+    } */
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <!--   <div id="info"></div> -->
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/georaster"></script>
+    <script src="https://unpkg.com/chroma-js"></script>
+    <script src="https://unpkg.com/georaster-layer-for-leaflet/georaster-layer-for-leaflet.browserify.min.js"></script>
+    <script src="https://unpkg.com/geoblaze@0.3.0/dist/geoblaze.web.min.js"></script>
+
+    <script>
+
+
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+
+        function round(value, precision) {
+            var multiplier = Math.pow(10, precision || 0);
+            return Math.round(value * multiplier) / multiplier;
+        }
+
+        // initalize leaflet map
+        curlat = getParameterByName('lat') * 1 != 0 ? getParameterByName('lat') * 1 : 17;
+        curlon = getParameterByName('lon') * 1 != 0 ? getParameterByName('lon') * 1 : -89;
+        opacity = getParameterByName('opacity') * 1 != 0 ? getParameterByName('opacity') * 1 : .7;
+        z = getParameterByName('z') * 1 != 0 ? getParameterByName('z') * 1 : 8;
+        minimo = getParameterByName('min') * 1 != 0 ? getParameterByName('min') * 1 : 0;
+        scalemin = getParameterByName('scalemin') * 1;
+        scalemax = getParameterByName('scalemax') * 1;
+        lay = getParameterByName('lay') == '' ? 'flood' : getParameterByName('lay');
+
+        var southWest = L.latLng(15.5, -89.5),
+            northEast = L.latLng(19, -87),
+            mybounds = L.latLngBounds(southWest, northEast);
+        var map = L.map('map', { minZoom: 6, maxZoom: 17, maxBounds: mybounds }).setView([curlat, curlon], z);
+
+
+        // var map = L.map('map').setView([curlat, curlon], z);
+
+        var layer;
+
+        // add OpenStreetMap basemap
+        L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // originally from https://globalwindatlas.info/downloads/gis-files
+
+        // available color scales can be found by running console.log(chroma.brewer);
+        // console.log(chroma.brewer);
+        var scale = chroma.scale(getParameterByName("color")); //https://gka.github.io/chroma.js/#chroma-scale
+        if (getParameterByName("color") == '') {
+            scale = chroma.scale(['#dfc27d', 'green', 'blue', 'yellow', 'red', 'purple']).domain([0, 0.1, 0.4, 0.6, 0.8, 1]);
+            scale = chroma.scale(['lightgray', 'green', 'blue', 'yellow', 'red', 'purple']).domain([0.000, 0.125, 0.250, 0.375, 0.500, 0.625, 0.750, 0.875, 1]);
+        } //default color
+
+
+        var tif_url = [];
+
+        // tif_url= "resultado3.tif";
+        // tif_url= 'hydlatlon201019_12z.tif';
+        //  tif_url= '201102_viento.tif';
+        //  tif_url= 'N20203101200.tif';
+        //  tif_url= '201105_lluvia2.tif';
+
+        tif_url['flood'] = ['Belize_floodrisk_nri_wgs84_003.tif', 'Belize flood risk NRI'];
+        tif_url['fire'] = ['belize_fire_wgs84_rasterized.tif', 'Belize wild fire Risk'];
+        tif_url['costal'] = ['geonode_coastal_flood_category_wgs84_rast.tif', 'geonode_coastal_flood_category_wgs84_rast.tif'];
+        tif_url['drought'] = ['min_rain_15yr_period_class.tif', 'min_rain_15yr_period_class.tif'];
+
+
+        fetch(tif_url[lay][0] + '?' + Math.random())
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => {
+                parseGeoraster(arrayBuffer).then(georaster => {
+                    min = georaster.mins[0];
+                    max = georaster.maxs[0];
+                    range = georaster.ranges[0];
+                    //console.log('Min,Max,Range', min, max, range);
+                    //  document.getElementById('info').innerHTML = 'Max: ' + Math.round(max);
+                    range = scalemax > 0 ? scalemax - scalemin : range;
+                    min = scalemin >= 0 ? scalemin : min;
+                    //range=100;
+
+
+                    layer = new GeoRasterLayer({
+                        georaster: georaster,
+                        opacity: 0.5,
+                        pixelValuesToColorFn: function (pixelValues) {
+                            var pixelValue = pixelValues[0] * 1.0; // there's just one band in this raster
+
+                            // if there's zero wind, don't return a color
+                            if (pixelValue < minimo) return null;
+                            if (pixelValue >= 200) return null;
+                            if (pixelValue <= -99) return null;
+
+                            //BZ
+                            min = 0; max = 8; range = max - min;//bz
+
+                            // scale to 0 - 1 used by chroma
+                            var scaledPixelValue = (pixelValue - min) / range;
+
+                            var color = scale(scaledPixelValue).hex();
+
+                            return color;
+                        },
+                        resolution: 256
+                    });
+                    //console.log("layer:", layer);
+                    layer.addTo(map);
+
+                    //  map.fitBounds(layer.getBounds());
+
+                    //           map.on('click', function(evt) {
+                    //             var latlng = map.mouseEventToLatLng(evt.originalEvent);
+                    //             console.log(latlng);
+                    //             valor = geoblaze.identify(georaster, [latlng.lng, latlng.lat]);
+                    //             alert(Math.round(valor));
+                    //           }); //click
+
+                    var color_scale = [];
+                    var limits = [];
+                    var bucket = range;
+                    var step = (max - min) / bucket;
+                    var valcolor = min;
+
+
+                    for (var i = 0, l = bucket; i < l; i++) {
+                        color_scale.push(scale(valcolor / range).hex());
+                        limits.push(round(valcolor, 0));
+                        //console.log('valcolor', valcolor, 'scale function', scale(valcolor).hex());
+                        valcolor = valcolor + step;
+                    }
+
+                    var legend = L.control({
+                        position: 'bottomleft'
+                    });
+                    legend.onAdd = function (map) {
+                        var div = L.DomUtil.create('div', 'legend');
+                        var colors = color_scale;
+                        var labels = [];
+                        // Add min & max
+                        //console.log('limits', limits);
+                        //console.log('colors', colors);
+                        //	limits = [15, 20, 25, 30, 35, 40];
+                        limits.forEach(function (limit, index) {
+                            limits[index] = round(limits[index], 1);
+                        }); //redondear limits
+
+                        //console.log('limitsR', limits);
+                        div.innerHTML = '<div class="labels"><div class="min">min: ' + round(min) + '</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="info"></span> \
+			<div class="max">' + 'max: ' + round(max) + '</div></div>'
+                        limits.forEach(function (limit, index) {
+                            labels.push('<li style="color: lightgray; text-align: center; background-color: ' + colors[index] + '">' + limits[index] + '</li>')
+                        })
+                        //console.log('labels', labels);
+                        div.innerHTML += '<ul>' + labels.join('') + '</ul><small><center><span class="titulo">' + tif_url[lay][1] + '</span></center>Gen: ' + Date().substring(4, 21) + '</small>'; // <a href="#" onClick="downloadDataPage()">🔽</a>';
+                        return div
+                    }
+                    legend.addTo(map);
+
+
+                    if (getParameterByName('pin') == '1') {
+                        // var circle = L.circleMarker([curlat, curlon], {
+                        //   color: 'yellow',
+                        //   fillColor: 'yellow',
+                        //   fillOpacity: 0.2,
+                        //   radius: 20
+                        // }).addTo(map);
+
+                        marker = L.marker([curlat, curlon]) //antes r.center
+                            .bindPopup('<center><br><big>Risk Index<br><b>' + geoblaze.identify(georaster, [curlon, curlat]) + '</b><br></big>')
+                            .addTo(map)
+                            .openPopup();
+
+                        var message = new Object();
+                        message.type = 'riskmap';
+                        message.lay = lay;
+                        message.lat = curlat;
+                        message.lon = curlon;
+                        message.val = geoblaze.identify(georaster, [curlon, curlat]);
+                        //console.log('Llamando a postMessage',message);
+                        parent.postMessage(message, location.origin);
+
+                    } //pin
+
+
+                    map.on('mousemove', function (evt) {
+                        var latlng = map.mouseEventToLatLng(evt.originalEvent);
+                        var valor = geoblaze.identify(georaster, [latlng.lng, latlng.lat]);
+                        document.getElementById('info').innerHTML = 'Value: ' + round(valor, 0);
+                        //console.log(Math.round(valor));
+                    }); //mousemove
+
+                    map.on('click', function (evt) {
+                        var valor = geoblaze.identify(georaster, [evt.latlng.lng, evt.latlng.lat]);
+                        //console.log('click', valor, evt.latlng.lat, ',', evt.latlng.lng);
+                    }); //mousemove
+
+                });
+            });
+
+
+
+    </script>
+</body>
+
+</html>
